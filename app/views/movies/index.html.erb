@@ -1,14 +1,27 @@
 <!--  This file is app/views/movies/index.html.erb -->
 <h2>All Movies</h2>
 
-<%#  Part 1: Start here... %>
+<%#  Part 2: Start here... %>
+<p style='font-size: 22px; font-weight: bold'><%= 'Ratings :' %></p>
+<% if !@unique_ratings.empty?  %>
+  <%= form_tag movies_path, :id => 'ratings_form', :method => 'get' do  %>
+    <% @unique_ratings.each do |rating| %>
+      <%=  "#{rating} "%><%= check_box_tag "ratings[#{rating}]", 1, (@selected_ratings.include? rating) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <% end %>
+    <br>
+    <p></p><%= submit_tag 'Refresh', :class => 'btn btn-primary', :id => 'ratings_submit' %></p>
+    
+  <% end %>
+<% end %>
 
 <table class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
-      <th>Movie Title</th>
+      <th class="<%= 'hilite text-info' if @sort_column == 'title'%>" >
+        <%= link_to 'Movie Title', movies_path(:sort_column => 'title'), :id => 'title_header', :style => 'color:inherit' %></th>
       <th>Rating</th>
-      <th>Release Date</th>
+      <th class="<%= 'hilite text-info' if @sort_column == 'release_date'%>" >
+        <%= link_to 'Release Date', movies_path(:sort_column  => 'release_date'), :id => 'release_date_header', :style => 'color:inherit' %></th>
       <th>More Info</th>
     </tr>
   </thead>
