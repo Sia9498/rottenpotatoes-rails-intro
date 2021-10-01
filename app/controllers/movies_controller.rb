@@ -21,7 +21,7 @@ class MoviesController < ApplicationController
     end
   
     def index
-      
+      session.clear
       @movies = Movie.all
       @unique_ratings = Movie.distinct('rating').pluck('rating')
       @selected_ratings = nil
@@ -31,6 +31,7 @@ class MoviesController < ApplicationController
         paramsToPass = {}
         paramsToPass[:ratings] = getFromSession('ratings')
         paramsToPass[:sort_column] = getFromSession('sort_column')
+        flash.keep
         redirect_to movies_path(paramsToPass)
       end
       
